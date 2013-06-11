@@ -1,0 +1,22 @@
+<html >
+<link rel="stylesheet" href="css/styles.css">
+<body>
+
+<div ng-app="CustomFilterApp">
+    {{1234.5 | ukcurrency}}<br>
+    {{1234.5 | number:2}}<br>
+    {{1234.5 | currency}}
+</div>
+
+<script src="js/angular.js"></script>
+<script>
+app = angular.module('CustomFilterApp', []);
+app.filter('ukcurrency', function(numberFilter) {
+  return function(value) {
+    return '£' + numberFilter(value,2);
+  };
+});
+</script>
+
+</body>
+</html>

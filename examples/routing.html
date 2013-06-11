@@ -1,0 +1,55 @@
+<html ng-app="MyApp">
+<link rel="stylesheet" href="css/styles.css">
+<body>
+  <div ng-view></div>
+
+<script src="js/angular.js"></script>
+<script>
+var MyApp = angular.module('MyApp',[]);
+MyApp.config(function($routeProvider) {
+  $routeProvider.
+    when('/', {templateUrl: 'partials/list.html',  controller: 'ListCtrl'}).
+    when('/detail/:id', {templateUrl: 'partials/detail.html', controller: 'DetailCtrl'}).
+    otherwise({redirectTo: '/'});
+});
+
+MyApp.service('UserService', function(){
+	var data = [
+		{name:'David St. Hubbins', plays:'Guitar & Vocals'},
+		{name:'Nigel Tufnel', plays:'Guitar & Vocals'},
+		{name:'Derek Smalls', plays:'Bass & Vocals'},
+		{name:'Jeffery Vanston', plays:'Keyboards & Vocals'},
+		{name:'Gregg Bissonette', plays:'Drums'},
+		{name:'Steve Lukather', plays:'Guest Guitar'},
+		{name:'Steve Vai', plays:'Guest Guitar'},
+		{name:'Joe Satriani', plays:'Guest Guitar'},
+		{name:'Jeff Beck', plays:'Guest Guitar'},
+		{name:'Slash', plays:'Guest Guitar'}
+	];
+	var created = new Date();
+	
+	this.list = function(){
+		return data;
+	},
+	this.get = function(index){
+		return data[index];
+	},
+	this.created = function(){
+		return created;
+	}
+});
+ 
+MyApp.controller('ListCtrl', function($scope,UserService){
+  $scope.band = UserService.list();
+})
+
+MyApp.controller('DetailCtrl', function($scope,$routeParams,UserService){
+	$scope.params = $routeParams;
+	$scope.user = UserService.get($routeParams.id);
+	$scope.controllerborn = new Date();
+	$scope.serviceborn = UserService.created();
+});
+</script>
+
+</body>
+</html>

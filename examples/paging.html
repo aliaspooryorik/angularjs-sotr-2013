@@ -1,0 +1,431 @@
+<html ng-app="ListApp">
+<link rel="stylesheet" href="css/styles.css">
+<style>
+.list-update {
+  background: #faf9f7;
+  padding: 5px;
+  margin: 10px 0px 10px 0px;
+  border-radius: 4px;
+  font-size: 0.8125em;
+  color: #c5c5c5;
+  border: 1px solid #ebe9d1;
+}
+.sort-list {
+  float: right;
+  width: 170px;
+}
+
+.sort-list select {
+  display: inline-block;
+  width: 135px;
+
+}
+
+ol.paginator li {
+  color: #fff;
+  padding: 5px 10px 5px 10px;
+  display: block;
+  display: inline-block;
+  margin: 0 4px 0px 0;
+  text-align: center;
+  border-radius: 4px;
+  list-style-type: none;
+  cursor: pointer;
+  text-decoration: none;
+  background: #0e6d51;
+}
+ol.paginator li.active {
+  background-color: darkgray;
+}
+</style>
+<body ng-controller="PagingCtrl">
+
+<div ng-show="showSorting()" class="list-update clearfix" style="clear:both;">
+  <div class="sort-list">
+  <select ng-model="orderby">
+    <option value="SORTORDER">Default</option>
+    <option value="TITLE">Title A-Z</option>
+    <option value="-TITLE">Title Z-A</option>
+    <option value="MINCOST">Price low-high</option>
+    <option value="-MINCOST">Price high-low</option>
+  </select>
+  </div>
+
+  <ol class="paginator" ng-show="showPaging()">
+    <li ng-repeat="n in getTimes(pages)" ng-class="{active: currentPage==$index}" ng-click="showPage($index)">
+      {{$index+1}}
+    </li>
+    <li ng-click="showAll()">all</li>
+  </ol>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Title</th>
+      <th>Price</th>
+      <th>Dimensions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-class-even="'info'" ng-repeat="product in products">
+      <th>{{$index+1}}</th>
+      <td><a ng-href="product/{{slug(product)}}">{{product.TITLE}}</a></td>
+      <td>{{product | pricetext}} <span ng-show="isOnOffer(product)" class="label">RRP: {{product.RRP | ukcurrency}}</span></td>
+      <td><dimensions product="product"></dimensions></td>
+    </tr>
+  </tbody>
+</table>
+
+<script src="js/jquery-1.9.1.min.js"></script>
+<script src="js/angular.js"></script>
+<script>
+
+/*
+ * ANGULARJS FILTERS (as module)
+ */
+var pagingFilters = angular.module('pagingFilters', []);
+
+pagingFilters.filter('pricetext', function(ukcurrencyFilter){
+  return function(product){
+    if (product.MAXCOST===product.MINCOST){
+      return ukcurrencyFilter(product.MAXCOST);
+    }else{
+      return "from " + ukcurrencyFilter(product.MAXCOST);
+    }
+  }
+});
+
+pagingFilters.filter('ukcurrency', function(numberFilter) {
+  return function(value) {
+  return '\u00A3' + numberFilter(value,2);
+  };
+});
+
+
+/*
+ * ANGULARJS APP
+ */
+app = angular.module('ListApp',['pagingFilters']);
+
+app.run(function ($rootScope){
+  $rootScope.getTimes=function(n){
+  return new Array(n);
+  };
+})
+
+
+
+/*
+ * ANGULARJS DIRECTIVES
+ */
+app.directive('dimensions', function (){
+  return {
+    restrict: 'E', // element
+    scope:{
+      product:'='
+    },
+    template: '<p ng-click="switchScale()">W: {{width}}, H: {{height}}, D: {{depth}}</p>',
+    link: function(scope, element, attrs){
+        element.css({'cursor':'pointer'}).attr('title','click to change scale');
+        scope.showAsCM = false; // mm by default
+        scope.switchScale = function() {
+            scope.showAsCM = !scope.showAsCM;
+            if (scope.showAsCM){
+                scope.width = scope.product.WIDTH / 10 + 'cm';
+                scope.height = scope.product.HEIGHT / 10 + 'cm';
+                scope.depth = scope.product.DEPTH / 10 + 'cm';
+            }else{
+                scope.width = scope.product.WIDTH + 'mm';
+                scope.height = scope.product.HEIGHT + 'mm';
+                scope.depth = scope.product.DEPTH + 'mm';
+            }
+        }
+
+        scope.switchScale();
+    }
+  };
+  // helper function
+  function convertToUnit(mm){
+    if (factor===10){
+      return mm/factor + 'cm';
+    }else{
+      return mm + 'mm';
+    }
+  }
+});
+
+/*
+ * ANGULARJS CONTROLLERS
+ */
+app.controller('PagingCtrl', function ($scope,orderByFilter){
+  $scope.orderby = 'SORTORDER'; // default sort order
+  // paging
+  var itemsPerPage = 5;
+  $scope.pages = Math.ceil(allproducts.length / itemsPerPage);
+  
+  $scope.showPage = function (page){
+    if (itemsPerPage < allproducts.length) {
+      var start = page * itemsPerPage;
+      var end = start + itemsPerPage;
+      $scope.products = allproducts.slice(start, end);
+      $scope.currentPage = page;
+    }else{
+      $scope.products = allproducts;
+    }
+  }
+  $scope.showAll = function(){
+    $scope.products = allproducts;
+    itemsPerPage = allproducts.length;
+    $scope.pages = 1;
+  }
+  $scope.slug = function(product){
+    var slug = product.TITLE + '-' + product.ID;
+    return angular.lowercase(slug.replace(/[^\d\w]+/gi, '-'));
+  }
+  $scope.isOnOffer = function(product){
+    return product.RRP > product.MAXCOST;
+  }
+  $scope.showPaging = function(){
+    return $scope.pages > 1;
+  }
+  $scope.showSorting = function(){
+    return allproducts.length > 3;
+  }
+  
+  $scope.showPage(0);
+  
+  $scope.$watch('orderby', function(){
+  // when the sort order changes need to also redraw which items are on which pages
+  allproducts = orderByFilter(allproducts, $scope.orderby);
+    $scope.showPage($scope.currentPage);
+  });
+});
+
+
+/*
+ * DATA - just a vanilla JavaScript array of objects
+ */
+var allproducts = [
+  {
+    "SORTORDER":0,
+    "HEIGHT":490,
+    "HASSTOCK":1,
+    "WIDTH":500,
+    "MAXCOST":89,
+    "ID":2336453,
+    "MINCOST":89,
+    "DEPTH":410,
+    "TITLE":"Dressing Table Stool",
+    "RRP":109
+  },
+  {
+    "SORTORDER":0,
+    "HEIGHT":1185,
+    "HASSTOCK":1,
+    "WIDTH":920,
+    "MAXCOST":349,
+    "ID":2336352,
+    "MINCOST":349,
+    "DEPTH":420,
+    "TITLE":"3 + 2 Chest",
+    "RRP":0
+  },
+  {
+    "SORTORDER":1,
+    "HEIGHT":1075,
+    "HASSTOCK":1,
+    "WIDTH":465,
+    "MAXCOST":129,
+    "ID":2336437,
+    "MINCOST":129,
+    "DEPTH":490,
+    "TITLE":"Amish Beech Chair",
+    "RRP":0
+  },
+  {
+    "SORTORDER":3,
+    "HEIGHT":585,
+    "HASSTOCK":1,
+    "WIDTH":485,
+    "MAXCOST":149,
+    "ID":2336349,
+    "MINCOST":149,
+    "DEPTH":420,
+    "TITLE":"2 Drawer Bedside",
+    "RRP":169
+  },
+  {
+    "SORTORDER":4,
+    "HEIGHT":1320,
+    "HASSTOCK":1,
+    "WIDTH":605,
+    "MAXCOST":299,
+    "ID":2336350,
+    "MINCOST":259,
+    "DEPTH":420,
+    "TITLE":"5 Drawer Wellington",
+    "RRP":0
+  },
+  {
+    "SORTORDER":5,
+    "HEIGHT":545,
+    "HASSTOCK":1,
+    "WIDTH":920,
+    "MAXCOST":249,
+    "ID":2336422,
+    "MINCOST":249,
+    "DEPTH":420,
+    "TITLE":"Blanket Chest",
+    "RRP":349
+  },
+  {
+    "SORTORDER":6,
+    "HEIGHT":950,
+    "HASSTOCK":1,
+    "WIDTH":920,
+    "MAXCOST":299,
+    "ID":2336351,
+    "MINCOST":299,
+    "DEPTH":420,
+    "TITLE":"2 + 2 Chest",
+    "RRP":0
+  },
+  {
+    "SORTORDER":8,
+    "HEIGHT":1425,
+    "HASSTOCK":1,
+    "WIDTH":920,
+    "MAXCOST":399,
+    "ID":2336353,
+    "MINCOST":399,
+    "DEPTH":420,
+    "TITLE":"4 + 2 Chest",
+    "RRP":0
+  },
+  {
+    "SORTORDER":9,
+    "HEIGHT":945,
+    "HASSTOCK":1,
+    "WIDTH":1330,
+    "MAXCOST":399,
+    "ID":2336354,
+    "MINCOST":399,
+    "DEPTH":420,
+    "TITLE":"3 Over 4 Chest",
+    "RRP":0
+  },
+  {
+    "SORTORDER":10,
+    "HEIGHT":800,
+    "HASSTOCK":1,
+    "WIDTH":1195,
+    "MAXCOST":329,
+    "ID":2336355,
+    "MINCOST":299,
+    "DEPTH":420,
+    "TITLE":"Single Pedestal Dressing Table",
+    "RRP":450
+  },
+  {
+    "SORTORDER":11,
+    "HEIGHT":800,
+    "HASSTOCK":1,
+    "WIDTH":1495,
+    "MAXCOST":449,
+    "ID":2336356,
+    "MINCOST":449,
+    "DEPTH":420,
+    "TITLE":"Double Pedestal Dressing Table",
+    "RRP":0
+  },
+  {
+    "SORTORDER":12,
+    "HEIGHT":785,
+    "HASSTOCK":1,
+    "WIDTH":990,
+    "MAXCOST":249,
+    "ID":2336375,
+    "MINCOST":249,
+    "DEPTH":420,
+    "TITLE":"1 Door Video Cabinet",
+    "RRP":349
+  },
+  {
+    "SORTORDER":13,
+    "HEIGHT":785,
+    "HASSTOCK":1,
+    "WIDTH":1400,
+    "MAXCOST":449,
+    "ID":2336376,
+    "MINCOST":349,
+    "DEPTH":420,
+    "TITLE":"2 Door Video Cabinet",
+    "RRP":0
+  },
+  {
+    "SORTORDER":14,
+    "HEIGHT":1080,
+    "HASSTOCK":1,
+    "WIDTH":1085,
+    "MAXCOST":299,
+    "ID":2336359,
+    "MINCOST":299,
+    "DEPTH":2085,
+    "TITLE":"3' L.F.E Bed",
+    "RRP":0
+  },
+  {
+    "SORTORDER":15,
+    "HEIGHT":1080,
+    "HASSTOCK":1,
+    "WIDTH":1525,
+    "MAXCOST":499,
+    "ID":2336360,
+    "MINCOST":399,
+    "DEPTH":2085,
+    "TITLE":"4'6\" L.F.E Bed",
+    "RRP":0
+  },
+  {
+    "SORTORDER":38,
+    "HEIGHT":1920,
+    "HASSTOCK":1,
+    "WIDTH":1035,
+    "MAXCOST":399,
+    "ID":2336357,
+    "MINCOST":259,
+    "DEPTH":540,
+    "TITLE":"Ladies Wardrobe",
+    "RRP":499
+  },
+  {
+    "SORTORDER":39,
+    "HEIGHT":1920,
+    "HASSTOCK":1,
+    "WIDTH":1505,
+    "MAXCOST":829,
+    "ID":2336421,
+    "MINCOST":729,
+    "DEPTH":540,
+    "TITLE":"Triple Wardrobe",
+    "RRP":1299
+  },
+  {
+    "SORTORDER":40,
+    "HEIGHT":1920,
+    "HASSTOCK":1,
+    "WIDTH":1035,
+    "MAXCOST":499,
+    "ID":2336358,
+    "MINCOST":499,
+    "DEPTH":540,
+    "TITLE":"2 Drawer Wardrobe",
+    "RRP":0
+  }
+];
+</script>
+
+</body>
+</html>

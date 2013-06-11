@@ -1,0 +1,18 @@
+<html>
+<link rel="stylesheet" href="css/styles.css">
+<body ng-app ng-controller="MyCtrl">
+
+Enter your name: <input type="text" ng-model="name">
+<p>Hello {{name}}!</p>
+<button ng-click="reset()">reset</button>
+<script src="js/angular.js"></script>
+<script>
+function MyCtrl ($scope){
+  $scope.name = "SOTR";
+  $scope.reset = function(){
+    $scope.name = "";
+  }
+}
+</script>
+</body>
+</html>

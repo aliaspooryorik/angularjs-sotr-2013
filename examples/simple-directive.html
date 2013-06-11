@@ -1,0 +1,35 @@
+<html ng-app="MyApp">
+<link rel="stylesheet" href="css/styles.css">
+<body>
+
+<div ng-view ng-cloak></div>
+<div sotr-loadingbar></div>
+
+<script src="js/jquery-1.9.1.min.js"></script>
+<script src="js/angular.js"></script>
+<script>
+var app = angular.module("MyApp", []);
+app.config(function($routeProvider) {
+  $routeProvider.
+    when('/', {template: '<h1>List View</h1><p><a href="#/detail">switch to detail view &raquo;</a></p>'}).
+    when('/detail', {template: '<h1>Detail View</h1><p><a href="#/">switch to list view &raquo;</a></p>'}).
+    otherwise({redirectTo: '/'});
+});
+app.directive('sotrLoadingbar', function ($rootScope){
+  return {
+    link: function(scope, element, attrs){
+	  element.addClass('progress progress-striped active'); // can use jQuery methods if jQuery loaded
+	  $rootScope.$on('$routeChangeStart', function(){
+	    element.fadeIn(1000);
+      });  
+	  $rootScope.$on('$routeChangeSuccess', function(){
+        element.fadeOut(1000);
+      });
+	},
+    template: '<div class="bar" style="width: 100%;">Loading...</div>'
+  }
+});
+</script>
+
+</body>
+</html>

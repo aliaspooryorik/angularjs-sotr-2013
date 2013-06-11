@@ -1,0 +1,37 @@
+<html ng-app>
+<link rel="stylesheet" href="css/styles.css">
+<body ng-controller="MyCtrl">
+
+
+  <div style="width:400px; float:right">
+    <input type="text" ng-model="search.$" placeholder="find...">
+    <input type="text" ng-model="search.plays" placeholder="plays...">
+  </div>
+  
+  <ul>
+    <li ng-repeat="who in band | orderBy: 'name' | filter: search">
+    {{who.name}} - {{who.plays}}
+    </li>
+  </ul>
+
+
+<script src="js/angular.js"></script>
+<script>
+function MyCtrl ($scope) {
+  $scope.band = [
+    {name:'David St. Hubbins', plays:'Guitar & Vocals'},
+    {name:'Nigel Tufnel', plays:'Guitar & Vocals'},
+    {name:'Derek Smalls', plays:'Bass & Vocals'},
+    {name:'Jeffery Vanston', plays:'Keyboards & Vocals'},
+    {name:'Gregg Bissonette', plays:'Drums'},
+    {name:'Steve Lukather', plays:'Guest Guitar'},
+    {name:'Steve Vai', plays:'Guest Guitar'},
+    {name:'Joe Satriani', plays:'Guest Guitar'},
+    {name:'Jeff Beck', plays:'Guest Guitar'},
+    {name:'Slash', plays:'Guest Guitar'}
+  ];
+}
+</script>
+
+</body>
+</html>

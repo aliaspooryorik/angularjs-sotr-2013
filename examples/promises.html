@@ -1,0 +1,37 @@
+<html>
+<link rel="stylesheet" href="css/styles.css">
+<body>
+
+<div ng-app="MyApp" ng-controller="MyCtrl">
+  <ul>
+    <li ng-repeat="user in users">
+    {{user.name}} - {{user.plays}}</li>
+  </ul>
+</div>
+
+<script src="js/angular.js"></script>
+<script>
+var app = angular.module("MyApp", []);
+// service creates singleton
+app.service("UserService", function ($http, $q) {
+  this.list = function (){
+    var deferred = $q.defer();
+	$http.get('data.json').success(function (data){
+	  // when data is returned resolve deferred
+	  deferred.resolve(data);
+	}).error(function (){
+	  deferred.reject();
+	});
+    return deferred.promise;
+  }
+});
+
+app.controller('MyCtrl', function ($scope,UserService){
+    UserService.list().then(function (data){
+      $scope.users = data;
+	});
+});
+</script>
+
+</body>
+</html>

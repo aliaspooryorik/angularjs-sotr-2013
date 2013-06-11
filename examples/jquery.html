@@ -1,0 +1,26 @@
+<html>
+<link rel="stylesheet" href="css/styles.css">
+<body>
+Enter your name: <input type="text" id="model-name">
+<p>Hello <span id="name"></span>!</p>
+<button id="reset">reset</button>
+<script src="js/jquery-1.9.1.min.js"></script>
+<script>
+jQuery(function ($){
+    function setName (msg){
+        $('#name').text(msg);
+        if ($modelname.val()!==msg){
+            $modelname.val(msg);
+        }
+    }
+    var $modelname = $('#model-name').on('keyup', function (){
+        setName($(this).val());
+    });
+    $('#reset').on('click', function (){
+        setName('');
+    });
+    setName('SOTR');
+});
+</script>
+</body>
+</html>

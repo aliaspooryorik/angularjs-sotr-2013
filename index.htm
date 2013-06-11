@@ -1,0 +1,1003 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>AngularJS - SOTR 2013</title>
+
+		<meta name="description" content="AngularJS - SOTR 2013">
+		<meta name="author" content="John Whish">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+        <!-- SOTR 2013 styles -->
+        <link rel="stylesheet" href="css/presentation.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-5518393-1']);
+            _gaq.push(['_trackPageview']);
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+
+	</head>
+
+<body>
+
+<div class="reveal">
+    <div class="slides"> 
+        
+		<section data-state="title">
+            <h1>I'm pretty sure HTML6 is going under the codename&hellip;</h1>
+			<img src="images/AngularJS-large.png" alt="AngularJS">
+            <aside class="notes">
+                <ul>
+                    <li>This are my slides from Scotch on the Rocks 2013</li>
+                    <li>Going to start by talking about what Angular is and why you should be interested</li>
+                    <li>Promise lots of code samples coming up!</li>
+                </ul>
+            </aside>
+		</section>
+		<!--
+		<section data-state="intro">
+			<h1>Agenda</h1>
+			<div class="fragment">
+				<ul>
+                    <li>What is AngularJS?</li>
+					<li>Why AngularJS?</li>
+					<li>Using AngularJS</li>
+                    <li>Resources</li>
+                    <li>Q&A</li>
+				</ul>
+			</div>
+			<aside class="notes">
+				<ul>
+					<li>When I submitted this talk to the SOTR team, there were no books on AngularJS, now there are several so I recommend you read those and thanks for coming!</li>
+				</ul>
+			</aside>
+		</section>
+		-->
+		<section data-state="what">
+			<h1>What is AngularJS?</h1>
+			<div class="fragment">
+				<blockquote cite="http://angularjs.org/">
+                    Superheroic JavaScript MVW Framework
+				</blockquote>
+				<small>http://angularjs.org/</small>
+			</div>
+            <div class="fragment">
+				<blockquote cite="http://angularjs.org/">
+                    HTML enhanced for web apps!
+				</blockquote>
+				<small>http://angularjs.org/</small>
+			</div>
+			<div class="fragment">
+				Huh?
+			</div>
+            <div class="fragment">
+				<blockquote cite="http://angularjs.org/">
+                    Pretty sure that HTML6 is going under the codename @angularjs
+				</blockquote>
+				<small>https://twitter.com/aliaspooryorik/status/230405938597728256</small>
+			</div>
+			
+			<aside class="notes">
+                <ul>
+                    <li>Started as an in-house Google project.</li>
+                    <li>Version 1.0 was released December, 2012.</li>
+					<li>The slogan of AngularJS is.... Superheroic JavaScript MVW Framework</li>
+					<li>MVW stands for Model, View, Whatever - you can think of the "whatever" as ViewModel...</li>
+                    <li>Also referred to as... HTML enhanced for web apps</li>
+                    <li>to me that's "huh?"</li>
+                    <li>My take on it that I tweeted was... Pretty sure that HTML6 is going under the codename @angiularjs</li>
+                    <li>What I meant was that it's HTML evolved
+                        <ul>
+                            <li>HTML was designed for static websites. The web has moved on</li>
+                            <li>Angularjs let's you extend what HTML can do</li>
+                        </ul>
+                    </li>
+				</ul>
+            </aside>
+		</section>
+		<section data-state="section-title">
+			<h1>Why AngularJS?</h1>
+
+            <aside class="notes">
+                <ul>
+                    <li>As web developers we need to be learning about building rich apps in the browser</li>
+                    <li>The server is for data - not generating the markup</li>
+                    <li>AngularJS is one framework that helps.</li>
+                    <li>decouple DOM manipulation from app logic.</li>
+                    <li>model can be vanilla JavaScript or something like Breeze. AngularJS doesn't require you to extend anything</li>
+                    <li>AngularJS is designed for CRUD apps - don't build games with it!</li>
+                    <li>I'm not going to tell you that Angular is *the one true way* to build rich Javascript apps. Ember, Backbone, Knockout etc may suit your needs better. Angular works for me.</li>
+                    <li>Looks a bit like ColdFusion tags (as mentioned on JavaScript Jabber)!</li>
+                </ul>
+            </aside>
+		</section>
+        <section data-state="why">
+			<h1>Activity</h1>
+
+            <ul class="no-bullet">
+				<li class="fragment"><img src="images/github-icon.png" alt="Github"> <span class="fragment">10,374 stars (2,149 forks)</span></li>
+				<li class="fragment"><img src="images/youtube-icon.png" alt="YouTube"> <span class="fragment">12,149 subscribers</span></li>
+                <li class="fragment"><img src="images/google-plus-icon.png" alt="Google+"> <span class="fragment">13,098 followers, 4,836 community</span></li>
+                <li class="fragment"><img src="images/twitter-icon.png" alt="Twitter"> <span class="fragment">15,378 followers</span></li>
+            </ul>
+
+            <ul class="fragment no-bullet">
+                <li>ColdFusion &mdash; <img src="images/twitter-icon.png" alt="Twitter"> 8,121 <img src="images/youtube-icon.png" alt="YouTube"> 390</li>
+            </ul>
+
+			<p class="fragment"><small>&dagger; as of 4th June 2013</small>
+
+            <aside class="notes">
+                <ul>
+                    <li>So it's made by Google - cool!</li>
+                    <li>but Google killed Wave and Reader and Checkout - uh oh!</li>
+                    <li>So that's the tech side of things is there any community interest?</li>
+                    <li>Anyone want to guess the numbers?</li>
+                    <li>github (starts & forks)...</li>
+                    <li>youtube...</li>
+                    <li>google+ (followers + community)...</li>
+                    <li>twitter...</li>
+                    <li>just for comparission here's ColdFusion...</li>
+                </ul>
+            </aside>
+
+		</section>
+		<section data-state="why">
+			<h1>Adoption</h1>
+			<div class="fragment">
+				<img src="images/framework-comparison.png" alt="framework-comparision" style="">
+                <p><small>http://www.infoq.com/research/top-javascript-mvc-frameworks</small></p>
+				<p class="caption fragment" style="top: 605px; left: 405px;">&larr; AngularJS</p>
+            </div>
+			<aside class="notes">
+				<ul>
+					<li>Top JavaScript MVC Frameworks poll on InfoQ</li>
+				</ul>
+			</aside>
+		</section>
+		<section data-state="why">
+			<h1>FAQs</h1>
+			<ul>
+				<li class="fragment">Is it SEO friendly?</li>
+				<li class="fragment">Is it compatible with jQuery?</li>
+				<li class="fragment">Does it work with IE?</li>
+				<li class="fragment">Will the HTML validate?</li>
+				<li class="fragment">Licencing?</li>
+				<li class="fragment">Does it require JavaScript?</li>
+				<li class="fragment">Where is the MSI or installer?</li>
+			</ul>
+			<aside class="notes">
+				<ul>
+					<li>Not SEO friendly</li>
+					<li>Uses jQuery if available. Ships with jQLite, which is a subset of jQuery. </li>
+					<li>works with IE8+, can use with IE7 if polyfill JSON.stringify</li>
+					<li>Safari, Chrome, Firefox, Opera as supported</li>
+					<li>Yes, if you use data-*</li>
+					<li>MIT</li>
+                    <li>The next two are genuine questions that have been asked...</li>
+				</ul>
+			</aside>
+		</section>
+		
+		<section data-state="example">
+            <h1>A TODO App</h1>
+			<p>AKA: &ldquo;The Hello World of JavaScript MV*&rdquo;
+
+			<iframe class="fragment" src="examples/helloworld.html"></iframe>
+			<aside class="notes">
+				<ul>
+					<li>Hello World of Javascript MV* frameworks is a Todo app</li>
+                    <li>Checkout http://todomvc.com/</li>
+					<li>Here's a simple one written with AngularJS</li>
+                    <li>demo sorting A-Z + "done"</li>
+					<li>Let's look at the code behind - anyone want to guess how many lines of JavaScript I had to write?</li>
+				</ul>
+			</aside>
+		</section>
+		
+		<section data-state="example">
+            
+			<pre><code>&lt;html ng-app&gt;
+&lt;body ng-controller=&quot;TodoCtrl&quot;&gt;
+
+  &lt;ul&gt;
+    &lt;li ng-repeat=&quot;todo in todos | orderBy: [&#39;done&#39;,&#39;text&#39;]&quot;&gt;
+      &lt;input type=&quot;checkbox&quot; ng-model=&quot;todo.done&quot;&gt;
+      &lt;span class=&quot;done-{{todo.done}}&quot;&gt;{{todo.text}}&lt;/span&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;form ng-submit=&quot;addTodo()&quot;&gt;
+    &lt;input type=&quot;text&quot; ng-model=&quot;todoText&quot; placeholder=&quot;new todo&quot;&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;add&quot;&gt;
+  &lt;/form&gt;
+
+  &lt;script src=&quot;js/angular.js&quot;&gt;&lt;/script&gt;
+  &lt;script&gt;
+  function TodoCtrl ($scope) {
+    $scope.todos = [
+      {text:&#39;write presso&#39;, done:true},
+      {text:&#39;catch plane&#39;, done:true},
+      {text:&#39;go home&#39;, done:false}
+    ];
+    $scope.addTodo = function (){
+      $scope.todos.push({text:$scope.todoText, done:false});
+      $scope.todoText = &#39;&#39;;
+    }
+  }
+  &lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+            <div class="fragment fade-in">
+                <div class="box-highlight fragment fade-out" style="width: 680px;height: 162px;top: 383px;left: 48px;">&nbsp;
+                    <span>Model</span>
+                </div>
+            </div>
+
+            <div class="fragment fade-in">
+                <div class="box-highlight fragment fade-out" style="width: 700px;height: 209px;top: 359px;left: 40px;">&nbsp;
+                    <span>Controller</span>
+                </div>
+            </div>
+
+            <div class="fragment fade-in">
+                <div class="box-highlight fragment fade-out" style="width: 750px;height: 209px;top: 90px;left: 40px;">
+                    <span>View</span>
+                </div>
+            </div>
+
+			<p class="caption fragment" style="top: 180px; left: 545px;">&uarr; Templating</p>
+			<p class="caption fragment" style="top: 350px; left: 355px;">&larr; Dependency Injection</p>
+			<div class="fragment">
+				<p class="caption" style="top: 522px; left: 490px;">&uarr; Data Binding</p>
+				<p class="caption" style="top: 187px; left: 238px;">Data Binding &darr;</p>
+			</div>
+			<p class="caption fragment" style="top: 62px; left: 445px;">&darr; Filter</p>
+			<p class="caption fragment" style="top: 62px; left: 118px;">&darr; Directive</p>
+			
+			<aside class="notes">
+				<ul>
+					<li>11 lines of code, of which 5 is the data...</li>
+                    <li>Model...</li>
+                    <li>Controller..</li>
+                    <li>View...</li>
+					<li>Templating...</li>
+					<li>Dependency Injection ($scope is automatically injected into the controller)...</li>
+					<li>Two way Data Binding...</li>
+					<li>Filters...</li>
+					<li>Directives...</li>
+					<li>Note:
+						<ul>
+							<li>$scope is the ModelView glue</li>
+							<li>Model is a plain JavaScript object</li>
+						</ul>
+					</li>
+					<li>This is just some of what AngularJS has to offer</li>
+				</ul>
+			</aside>
+		</section>
+		
+		
+		<!--
+		<section data-state="example">
+			<h1 class="fragment fade-out">Expressions</h1>
+			<div class="fragment">
+				<pre><code>&lt;html&gt;
+&lt;body ng-app&gt;
+&lt;p&gt;This is your first angular expression: {{ 1 + 2 }}&lt;/p&gt;
+&lt;script src="angular.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+			</div>
+			<p class="caption fragment" style="top:130px; left:115px;">&darr; binding</p>
+			<p class="caption fragment" style="top:155px; left:405px;">expression &darr;</p>
+			
+			<iframe class="fragment" src="examples/expression.html"></iframe>
+			
+			<aside class="notes">
+				<ul>
+					<li></li>
+				</ul>
+			</aside>
+		</section>
+		--->
+		<section data-state="section-title">
+            <h1>Data Binding & Templating</h1>
+            <aside class="notes">
+                <ul>
+                    <li>There was a lot happening for us in the todo app, let's break it down a bit</li>
+                </ul>
+            </aside>
+		</section>
+        <section data-state="example">
+			<pre><code>&lt;html ng-app&gt;
+&lt;body ng-controller="MyCtrl"&gt;
+
+Enter your name: &lt;input type="text" ng-model="name"&gt;
+&lt;p&gt;Hello {{name}}!&lt;/p&gt;
+
+&lt;button ng-click=&quot;reset()&quot;&gt;reset&lt;/button&gt;
+
+&lt;script src="angular.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+function MyCtrl ($scope){
+  $scope.name = "SOTR";
+  $scope.reset = function (){
+    $scope.name = "";
+  }
+}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            <!--
+			<p class="caption fragment" style="top:130px; left:335px;">binding name &darr;</p>
+            <p class="caption fragment" style="top:230px; left:135px;">&uarr; bound variable</p>
+			<p class="caption fragment" style="top:240px; left:135px;">&uarr; templating</p>
+			-->
+            <iframe class="fragment" src="examples/databinding.html"></iframe>
+			
+            <aside class="notes">
+                <ul>
+                    <li>Need to include angular.js (can use CDN)</li>
+					<li>ng-app - tells angular to boostrap</li>
+					<li>ng-controller - defines which part of the page the controller manages</li>
+					<li>double curly braces is used for templating</li>
+                    <li>Controller is simple Javascript - not extending anything<li>
+                    <li>$scope is injected into the controller<li>
+					<li>$scope is injected into the view<li>
+					<li>ng-model - binds to model</li>
+                    <li>ng-click - binds to reset() function</li>
+					<li>Data binding it two way - can update in controller or viewmodel</li>
+                    <li>Note not using any ids so business logic loosely coupled to view</li>
+                </ul>
+            </aside>
+        </section>
+		
+		<section data-state="example">
+            <h1>jQuery Comparision</h1>
+			<div class="fragment">
+				<pre><code>&lt;html&gt;
+&lt;body&gt;
+Enter your name: &lt;input type=&quot;text&quot; id=&quot;model-name&quot;&gt;
+&lt;p&gt;Hello &lt;span id=&quot;name&quot;&gt;&lt;/span&gt;!&lt;/p&gt;
+&lt;button id=&quot;reset&quot;&gt;reset&lt;/button&gt;
+
+&lt;script src=&quot;js/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+jQuery(function ($){
+  function setName (msg){
+    $('#name').text(msg);
+    if ($modelname.val()!==msg){
+      $modelname.val(msg);
+    }
+  }
+  var $modelname = $('#model-name').on('keyup', function (){
+    setName($(this).val());
+  });
+  $('#reset').on('click', function (){
+    setName('');
+  });
+  setName('SOTR');
+});
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </div>
+			<aside class="notes">
+                <ul>
+                    <li>jQuery uses event listeners, whereas Anguar uses a model "observation mechanism"</li>
+                    <li>The jQuery example is strongly tied to the DOM</li>
+                    <li>Makes it hard to test</li>
+                    <li>More code</li>
+                </ul>
+			</aside>
+		</section>
+<!--
+		<section data-state="example">
+            <h1 class="fragment fade-out">Templating</h1>
+			
+			<div class="fragment">
+				<pre><code>&lt;html&gt;
+&lt;body ng-app&gt;
+&lt;ul&gt;
+  &lt;li ng-repeat="who in ['John','Andy',Matt']"&gt;{{who}}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script src="angular.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </div>
+			
+			<iframe class="fragment" src="examples/ng-repeat.html"></iframe>
+		</section>
+
+		<section data-state="example">
+            <h1 class="fragment fade-out">Model-View Glue</h1>
+			
+			<div class="fragment">
+				<pre><code>&lt;ul ng-app ng-controller="MyCtrl"&gt;
+  &lt;li ng-repeat="who in speakers"&gt;
+	{{who.surname}}, {{who.forename}}&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script&gt;
+function MyCtrl ($scope) {
+  $scope.speakers = [
+    {forename:'John', surname:'Whish'},
+    {forename:'Matt', surname:'Gifford'},
+    {forename:'Rob', surname:'Dudley'}
+  ];
+}
+&lt;/script&gt;</code></pre>
+
+				<p class="caption fragment" style="top:110px; left:400px;">&darr; controller binding</p>
+
+				<div class="box-highlight fragment" style="top: 328px;left: 70px;width: 510px;height: 110px;">
+					<p class="caption" style="top:30px; right:-100px;">model</p>
+				</div>
+
+				<p class="caption fragment" style="top:255px; left:290px;">&darr; DI</p>
+            </div>
+			
+			<iframe class="fragment" src="examples/scope.html"></iframe>
+			
+			<aside class="notes">
+			Having data in the view is bad. Want it in the model<br>
+			I've removed the html / body tags for clarity<br>
+			Note the ng-controller directive<br>
+			Note $scope is automatically injected into the controller (DI)<br>
+			Note $scope is automatically injected into the view<br>
+			speakers in the view is the same as $scope.speakers in model<br>
+			</aside>
+		</section>
+-->
+		<section data-state="section-title">
+            <h1>Filters</h1>
+            <aside class="notes">
+                <ul>
+                    <li>TODO app made us of filters</li>
+                    <li>Filters are used for formatting data displayed to the user</li>
+                    <li>Filters they can also be used to filter data</li>
+                </ul>
+            </aside>
+		</section>
+		<section data-state="example">
+            <pre><code>&lt;div ng-app ng-controller=&quot;MyCtrl&quot;&gt;
+uppercase: {{sometext | uppercase}}&lt;br&gt;
+lowercase: {{sometext | lowercase}}&lt;br&gt;
+number: {{somenumber | number:2}}&lt;br&gt;
+currency: {{somenumber | currency}}&lt;br&gt;
+date: {{somedate | date:&#39;yyyy-MM-dd HH:mm:ss&#39;}}&lt;br&gt;
+&lt;/div&gt;
+&lt;script src=&quot;js/angular.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+function MyCtrl ($scope) {
+  $scope.sometext = &quot;Hello&quot;;
+  $scope.somenumber = 1234.5;
+  $scope.somedate = new Date();
+}
+&lt;/script&gt;</code></pre>
+			
+			<iframe class="fragment" src="examples/filter-formatting.html"></iframe>
+			<aside class="notes">
+				<ul>
+                    <li>not very exciting bit of code</li>
+					<li>note currency accepts argument for decimal places</li>
+					<li>date filter has nice mask as argument</li>
+				</ul>
+			</aside>
+		</section>
+		<section data-state="example">
+            <pre><code>&lt;div ng-app ng-controller=&quot;MyCtrl&quot;&gt;
+  &lt;ul&gt;
+    &lt;li ng-repeat=&quot;who in band | orderBy:&#39;surname&#39; | filter:search&quot;&gt;
+    {{who.name}} - {{who.plays}}&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;input type=&quot;text&quot; ng-model=&quot;search.$&quot; placeholder=&quot;find...&quot;&gt;
+  &lt;input type=&quot;text&quot; ng-model=&quot;search.plays&quot; placeholder=&quot;plays...&quot;&gt;
+&lt;/div&gt;
+&lt;script&gt;
+function MyCtrl ($scope) {
+  $scope.band = [
+    {name:&#39;David St. Hubbins&#39;, plays:&#39;Guitar &amp; Vocals&#39;},
+    {name:&#39;Nigel Tufnel&#39;, plays:&#39;Guitar &amp; Vocals&#39;},
+    &hellip;
+  ];
+}
+&lt;/script&gt;</code></pre>
+			
+			<iframe class="fragment" src="examples/filters.html"></iframe>
+			<aside class="notes">
+				<ul>
+                    <li>as I mention can be used to sort and filter data
+                    <li>sorting on 'surname'
+					<li>array in the controller
+                    <li>can anyone name the band?
+					<li>ng-repeat - copy HTML element for each item in the array
+					<li>Can use an array in the orderBy or single property</li>
+					<li>filter is bound to model "search" (note not defined in the controller)</li>
+                    <li>search.$ means filter on all properties</li>
+                    <li>search.plays means filter on only the plays property</li>
+					<li>demo... search by: "Jeff"</li>
+                    <li>demo... search by plays: "Guitar"</li>
+				</ul>
+			</aside>
+		</section>
+		<section data-state="section-title">
+			<h1>Modules</h1>
+			<aside class="notes">
+				So far my examples have not used any kind of namespacing<br>
+				Much better to be more "modular" to avoid naming conflicts and make code clearer<br>
+			</aside>
+		</section>
+		<section data-state="example">
+			<pre><code>&lt;div ng-app=&quot;MyApp&quot; ng-controller=&quot;MyCtrl&quot;&gt;
+  &lt;ul&gt;
+    &lt;li ng-repeat=&quot;who in band&quot;&gt;
+    {{who.name}} - {{who.plays}}&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;script src=&quot;js/angular.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+var app = angular.module('MyApp', []);
+app.controller('MyCtrl', function ($scope) {
+  $scope.band = [
+    {name:&#39;David St. Hubbins&#39;, plays:&#39;Guitar &amp; Vocals&#39;},
+    {name:&#39;Nigel Tufnel&#39;, plays:&#39;Guitar &amp; Vocals&#39;},
+    &hellip;
+  ];
+});
+&lt;/script&gt;</code></pre>
+			<iframe class="fragment" src="examples/modules.html"></iframe>
+			<aside class="notes">
+                <ul>
+                    <li>Have used angular.module</li>
+                    <li>MyApp matches ng-app="MyApp"</li>
+                    <li>Controller assigned to <ap></ap>p "module"</li>
+                    <li>Caveat if minify code, need slightly different syntax or DI breaks</li>
+                </ul>
+			</aside>
+		</section>
+		<section data-state="section-title">
+			<h1>Services &amp; Dependency Injection</h1>
+			<aside class="notes">
+				The code could still be better - we are defining data in the controller.<br>
+				Be better for data to be in a service <br>
+                Don't want fat controllers with lots of business objects and logic.<br>
+                Could then be accessible to other controllers
+			</aside>
+		</section>
+		<section data-state="example">
+			<pre><code class="javascript">var app = angular.module("MyApp", []);
+// service is a singleton
+app.service("UserService", function () {
+  var users = [
+    {name:'David St. Hubbins', plays:'Guitar &amp; Vocals'},
+    {name:'Nigel Tufnel', plays:'Guitar &amp; Vocals'},
+    {name:'Derek Smalls', plays:'Bass &amp; Vocals'},
+    &hellip;
+  ];
+  this.list = function (){ 
+    return users; 
+  }
+});
+
+app.controller('MyCtrl', function ($scope,UserService){
+  $scope.band = UserService.list();
+});</code></pre>
+			<iframe class="fragment" src="examples/service.html"></iframe>
+			<aside class="notes">
+				services are singletons<br>
+				controller are created on each view, which creates problems with bigger apps<br>
+				UserService is injected into controller<br>
+				Easier to test using mocks<br>
+			</aside>
+		</section>
+		<section data-state="section-title">
+			<h1>Promises</h1>
+			<aside class="notes">
+				In a real app, we'd probably be loading the data as an AJAX call<br>
+                calls to webservices are asynchronous<br>
+                call use callbacks but can quickly get messy and you'll be stuck in a kinda of nested callback hell.<br>
+                this is where promises come in<br>
+                promises are not unique to Angular - jQuery 1.6 added them<br>
+				promises are a guarantee to return something when ready<br>
+                The .promise() method returns a dynamically generated Promise that is resolved once all actions of a certain type bound to the collection, queued or not, have ended. (jQuery website)<br>
+			</aside>
+		</section>
+		<section data-state="example">
+			<pre><code class="javascript">var app = angular.module(&quot;MyApp&quot;, []);
+
+app.service(&quot;UserService&quot;, function ($http, $q) {
+  this.list = function (){
+    var deferred = $q.defer();
+    $http.get('data.json').success(function (data){
+      // when data is returned resolve deferred
+      deferred.resolve(data);
+    }).error(function (){
+      deferred.reject();
+    });
+    return deferred.promise;
+  }
+});
+
+app.controller('MyCtrl', function ($scope,UserService){
+  UserService.list().then(function (data){
+    $scope.users = data;
+  });
+});</code></pre>
+			<iframe class="fragment" src="examples/promises.html"></iframe>
+			<aside class="notes">
+                AngularJS has 'http' module, but also allows has the $q module for promises<br>
+                $q.defer creates the promise<br>
+				call to webservice is asynchronous<br>
+				calls success when data returned from server<br>
+                promise is resolved (or rejected on error)<br>
+                return the promise to calling code<br>
+                remember this is asynchronous
+			</aside>
+		</section>
+		<section data-state="section-title">
+			<h1>Validation</h1>
+		</section>
+		<section data-state="example">
+			<pre><code>&lt;form name=&quot;myForm&quot; ng-controller=&quot;MyCtrl&quot; novalidate ng-submit=&quot;submit()&quot;&gt;
+  &lt;input type=&quot;text&quot; ng-model=&quot;user.name&quot; required placeholder=&quot;name&quot;&gt;
+  &lt;input type=&quot;email&quot; ng-model=&quot;user.email&quot; required placeholder=&quot;email&quot;&gt;
+  &lt;input type=&quot;checkbox&quot; ng-model=&quot;user.child&quot;&gt; Under 18?
+  &lt;input type=&quot;text&quot; ng-model=&quot;user.age&quot; ng-required=&quot;user.child&quot; 
+    ng-maxlength=&quot;2&quot; ng-pattern=&quot;/^[0-9]+$/&quot; placeholder=&quot;age (if under 18)&quot;&gt;
+  &lt;button ng-disabled=&quot;myForm.$invalid&quot; ng-hide=&quot;saved&quot;&gt;submit&lt;/button&gt;
+  &lt;p&gt;form is valid: {{myForm.$valid}}&lt;/p&gt;
+  &lt;pre&gt;{{user|json}}&lt;/pre&gt;
+&lt;/form&gt;
+
+&lt;script&gt;
+var app = angular.module(&quot;MyApp&quot;, []);
+
+app.controller(&#39;MyCtrl&#39;, function ($scope){
+  $scope.saved = false;
+  $scope.submit = function(){
+    $scope.saved = $scope.myForm.$valid;
+  }
+});
+&lt;/script&gt;</code></pre>
+			<iframe class="fragment" src="examples/validation.html"></iframe>
+			<aside class="notes">
+				<ul>
+					<li>form must have a name</li>
+					<li>Angular automatically applies the ng-invalid or ng-valid classes</li>
+					<li>Angular recognises "required", "type=email"</li>
+					<li>Angular also has ng-pattern  and ng-required if you want a conditional required</li>
+					<li>I'm also using the json filter to format the model debugging</li>
+                    <li>The JSON is formatted using an angular filter</li>
+				</ul>
+			</aside>
+		</section>
+		<!--
+		<section data-state="section-title">
+			<h1>$RootScope</h1>
+		</section>
+		-->
+		<section data-state="section-title">
+			<h1>Routing</h1>
+			<aside class="notes">
+				<ul>
+					<li>In a Javascript app you'll have multiple views - this where routing comes in</li>
+				</ul>
+			</aside>
+		</section>
+		<section data-state="example">
+			<div>
+				<pre><code class="javascript">var MyApp = angular.module('MyApp',[]);
+MyApp.config(function ($routeProvider) {
+  $routeProvider.
+    when('/', {
+      templateUrl: 'partials/list.html', controller: 'ListCtrl'
+    }).when('/detail/:id', {
+      templateUrl: 'partials/detail.html', controller: 'DetailCtrl'
+    }).otherwise({redirectTo: '/'});
+});
+MyApp.controller('ListCtrl', function ($scope,UserService){
+  $scope.users = UserService.list();
+})
+MyApp.controller('DetailCtrl', function ($scope,$routeParams,UserService){
+  $scope.user = UserService.get($routeParams.id);
+  $scope.controllerborn = new Date();
+  $scope.serviceborn = UserService.created();
+});</code></pre>
+				<p class="script-name" style="top:28px;">app.js</p>
+			</div>
+			<div class="fragment">
+				<pre><code class="html">&lt;ul&gt;
+  &lt;li ng-repeat=&quot;user in users | orderBy:&#39;name&#39;&quot;&gt;
+    &lt;a ng-href=&quot;#/detail/{{$index}}&quot;&gt;{{user.name}}&lt;/a&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+				<p class="script-name" style="top:378px;">list.html</p>
+			</div>
+			<div class="fragment">
+				<pre><code class="html">id: {{params.id}}&lt;br&gt;
+name: {{user.name}}&lt;br&gt;
+plays: {{user.plays}}&lt;br&gt;
+&lt;a href=&quot;#/list&quot;&gt;List View&lt;/a&gt;&lt;br&gt;
+controller created: {{controllerborn|date:&#39;dd.MM.yy HH:mm:ss&#39;}}&lt;br&gt;
+service created: {{serviceborn|date:&#39;dd.MM.yy HH:mm:ss&#39;}}&lt;br&gt;</code></pre>
+				<p class="script-name" style="top:499px;">detail.html</p>
+			</div>
+			<div class="fragment">
+				<pre><code class="html">&lt;div ng-app=&quot;MyApp&quot;&gt;
+  &lt;div ng-view&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+				<p class="script-name" style="top:639px;">index.html</p>
+			</div>
+			<aside class="notes">
+				<ul>
+					<li>Using config to configure the application</li>
+					<li>Passing in the $routeProvider</li>
+					<li>$routeProvider matches the URL and defines the view template and controller</li>
+					<li>otherwise is a catchall - could be a 404 view</li>
+					<li>controllers are as we've already seen</li>
+					<li>....</li>
+					<li>we now have view templates common called partials</li>
+					<li>The link is a simple hash followed by the route and id</li>
+					<li>....</li>
+					<li>detail shows a bit more info with link back to list</li>
+					<li>remember I said that controllers are transient and services singular? I've added a created date to demonstrate</li>
+					<li>....</li>
+					<li>finally, the placeholder for the views is a simple ng-view</li>
+					<li>in action it looks like....</li>
+				</ul>
+			</aside>
+		</section>
+		<section data-state="example">
+			<iframe src="examples/routing.html"></iframe>
+			<aside class="notes">
+				<ul>
+					<li>Angular does not reload the page, pulls in template and parses when the route changes</li>
+					<li>Notice the controller and service have different dates</li>
+				</ul>
+			</aside>
+		</section>		
+		<section data-state="section-title">
+			<h1>Directives</h1>
+			<aside class="notes">
+				<ul>
+					<li>We've used a lot of Angular's inbuilt directives, but what if you wanted to make your own</li>
+					<li>Directives are a subject I could have spent the whole presentation talking about so I'm not going to go into details</li>
+					<li>Couple of quick examples of directives</li>
+				</ul>
+			</aside>
+		</section>
+		<section data-state="example">
+			<pre><code class="html">app.directive('sotrLoadingbar', function ($rootScope){
+  return {
+    link: function (scope, element, attrs){
+      element.addClass('progress progress-striped active');
+      $rootScope.$on('$routeChangeStart', function (){
+        element.fadeIn(500); // fadeIn requires jQuery
+      });
+      $rootScope.$on('$routeChangeSuccess', function (){
+        element.fadeOut(500); // fadeOut requires jQuery
+      });
+    },
+    template: '&lt;div class=&quot;bar&quot;&gt;Loading...&lt;/div&gt;'
+  }
+});</code></pre>
+			<pre><code class="html">&lt;div ng-view&gt;&lt;/div&gt;
+&lt;div sotr-loadingbar&gt;&lt;/div&gt;</code></pre>
+			<iframe class="fragment" src="examples/simple-directive.html"></iframe>
+            <aside class="notes">
+                using app.directive to define directive<br>
+                passing in $rootScope (which is the parent of all app $scopes)<br>
+                link phase is where angular makes the view dynamic. So set up event listeners, data binding etc<br>
+                example is listening to $routeChangeStart and $routeChangeSuccess events<br>
+                using jQuery for some fancy animation (although the latest version of angular has animation support)<br>
+                using the bootstrap progress bar, 'template' inserted inside directive tag.<br>
+                element.addClass adds classes to element which has the directive<br>
+            </aside>
+		</section>
+        <section data-state="example">
+			<pre><code class="html">var app = angular.module("MyApp", []);
+app.directive('accordion', function (){
+  return {
+    restrict: 'EA', //element or attribute
+    scope:{
+      title:'@' // don't need content as ng-transclude
+    },
+    templateUrl: 'directives/accordion.html',
+    transclude: true, // replace element
+    link: function(scope, element, attr){
+      scope.visible = false;
+      scope.toggleContent = function(){
+        scope.visible = !scope.visible;
+      }
+    }
+  }
+});</code></pre>
+            <p class="script-name" style="top:28px;">app.js</p>
+
+            <pre><code class="html">&lt;dl&gt;
+  &lt;dt ng-click="toggleContent()"&gt;Title: {{title}}&lt;/dt&gt;
+  &lt;dd ng-show="visible" ng-transclude&gt;&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+            <p class="script-name" style="top:378px;">accordion.html</p>
+
+            <pre><code class="html">&lt;div accordion title="{{model.title}}"&gt;content: {{model.content}}&lt;/div&gt;</code></pre>
+
+            <iframe class="fragment" src="examples/accordion-directive.html" style="height:200px"></iframe>
+            <aside class="notes">
+                scope is private to the directive. Choose want data you want<br>
+                @ means pass data as string<br>
+                = means data bind to property with the parent<br>
+                & means pass in a function from the parent scope<br>
+                also a compile phase where angular finds and creates the templates which has preLink and postLink <br>
+                attrs are the attributes of the element<br>
+            </aside>
+		</section>
+
+        <section data-state="resources">
+			<h1>Resources</h1>
+			<ul>
+				<li>Official Website<br>
+					<small><a href="http://angularjs.org/">http://angularjs.org/</a></small></li>
+				<li>Community<br>
+					<small><a href="https://plus.google.com/+AngularJS/">https://plus.google.com/+AngularJS/</a></small></li>
+				<li>Video<br>
+					<small><a href="http://www.youtube.com/user/angularjs">http://www.youtube.com/user/angularjs</a></small><br>
+                    <small><a href="http://www.egghead.io/">http://www.egghead.io/</a></small>
+                </li>
+				<li>The Angular Batarang<br>
+					<small><a href="https://chrome.google.com/webstore/detail/angularjs-batarang/ighdmehidhipcmcojjgiloacoafjmpfk?hl=en">https://chrome.google.com/webstore/category/ext/11-web-development</a></small>
+				</li>
+                <li>https://github.com/angular-ui/<br>
+                    <small><a href="http://angular-ui.github.io/">http://angular-ui.github.io/</a></small>
+                    </li>
+            </ul>
+			<aside class="notes">
+				<ul>
+					<li>Official website contains download, docs, examples and a tutorial</li>
+                    <li>Batarang chrome extension for debugging. View scope, dependancies, performace etc</li>
+                    <li>Also AngularUI on github which has directives for Twitter Bootstrap, jQuery UI, TinyMCE, Google Maps etc</li>
+				</ul>
+			</aside>
+		</section>
+		
+		<section data-state="resources">
+			<h1>Books</h1>
+			<ul>
+				<li>AngularJS in Action<br>
+					<small><a href="http://www.manning.com/bford/">http://www.manning.com/</a></small></li>
+				<li>Instant AngularJS Starter<br>
+					<small><a href="http://www.packtpub.com/angularjs-to-build-dynamic-web-applications/book">http://www.packtpub.com/</a></small></li>
+				<li>AngularJS<br>
+					<small><a href="http://shop.oreilly.com/product/0636920028055.do">http://shop.oreilly.com/</a></small></li>
+				<li>Recipes with Angular.js<br>
+					<small><a href="https://leanpub.com/recipes-with-angular-js">https://leanpub.com/</a></small></li>
+			</ul>
+            <aside class="notes">
+                <ul>
+                    <li>AngularJS in Action & Recipes with Angular are incomplete</li>
+                </ul>
+            </aside>
+		</section>
+		<section data-state="end">
+			<h1>Thank You!</h1>
+			<ul>
+				<li>Me: John Whish</li>
+				<li>AKA: Aliaspooryorik</li>
+				<li>Web: www.aliaspooryorik.com</li>
+				<li>Twitter: @aliaspooryorik</li>
+				<li>Slide Deck<br>
+					<small><a href="http://www.aliaspooryorik.com/presentations/angularjs2013/">www.aliaspooryorik.com/presentations/angularjs2013/</a></small></li>
+			</ul>
+			<img src="images/aliaspooryorik-logo.jpg" alt="stick man" style="position:absolute; top:170px; right:0px;">
+		</section>
+
+        <section data-state="section-title">
+            <h1>Bonus!</h1>
+        </section>
+
+        <section data-state="bonus">
+			<h1>Custom Filter</h1>
+            <pre><code>&lt;div ng-app=&quot;CustomFilterApp&quot;&gt;
+  {{1234.5 | ukcurrency}}&lt;br&gt;
+  {{1234.5 | number:2}}&lt;br&gt;
+  {{1234.5 | currency}}
+&lt;/div&gt;
+
+&lt;script&gt;
+app = angular.module(&#39;CustomFilterApp&#39;, []);
+app.filter(&#39;ukcurrency&#39;, function(numberFilter) {
+  return function(value) {
+    return &#39;&#163;&#39; + numberFilter(value,2);
+  };
+});
+&lt;/script&gt;</code></pre>
+            <iframe src="examples/custom-filters.html"></iframe>
+			<aside class="notes">
+				<ul>
+					<li>passing in number filter need to have "filter" suffix</li>
+				</ul>
+			</aside>
+		</section>
+
+		<section data-state="bonus">
+			<h1>Kitchen Sink Contrived Example</h1>
+            <iframe src="examples/paging.html" style="height: 400px"></iframe>
+
+			<aside class="notes">
+				<ul>
+                    <li>Contrived example</li>
+					<li>Notice that it sorts all data - not just visible</li>
+				</ul>
+			</aside>
+		</section>
+		
+    </div>
+	
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.min.js"></script>
+
+<script>
+
+	// Full list of configuration options available here:
+	// https://github.com/hakimel/reveal.js#configuration
+	Reveal.initialize({
+		controls: true,
+		progress: true,
+		history: true,
+		center: true,
+		width: 1018, // 1.06x default
+		height: 742,
+
+		theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+		transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+		// Optional libraries used to extend on reveal.js
+		dependencies: [
+			{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+			{ src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+			{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+			{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+			{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+			{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+			// { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+			// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+		]
+	});
+
+</script>
+
+</body>
+</html>
